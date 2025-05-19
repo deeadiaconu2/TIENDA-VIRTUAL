@@ -1,21 +1,62 @@
 <?php
-include 'includes/conexion.php';
+session_start();
+require_once 'Conexion.php';
 
-$usuario = $_POST['usuario'];
-$contrasena = password_hash($_POST['contrasena'], PASSWORD_DEFAULT);
-$nombre = $_POST['nombre'];
-$apellidos = $_POST['apellidos'];
-$correo = $_POST['correo'];
-$fecha = $_POST['fecha_nacimiento'];
-$genero = $_POST['genero'];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Recoger y limpiar datos
+    $usuario     = trim($_POST['usuario']);
+    $password    = trim($_POST['password']);
+    $nombre      = trim($_POST['nombre']);
+    $apellidos   = trim($_POST['apellidos']);
+    $correo      = trim($_POST['correo']);
+    $fecha       = $_POST['fecha_nacimiento'];
+    $genero      = $_POST['genero'];
 
-$query1 = $conexion->prepare("INSERT INTO usuarios (usuario, contrasena) VALUES (?, ?)");
-$query1->bind_param("ss", $usuario, $contrasena);
-$query1->execute();
+    // Validaciones
+    if (empty($usuario) || empty($password) || empty($nombre) || empty($correo)) {
+        die("Por favor completa todos los campos obligatorios.");
+    }
 
-$query2 = $conexion->prepare("INSERT INTO clientes (usuario, nombre, apellidos, correo, fecha_nacimiento, genero) VALUES (?, ?, ?, ?, ?, ?)");
-$query2->bind_param("ssssss", $usuario, $nombre, $apellidos, $correo, $fecha, $genero);
-$query2->execute();
+    if (strlen($password) < 6) {
+        die("La contraseña debe tener al menos 6 caracteres.");
+    }
 
-header("Location: login.html");
+    $conexion = new Conexion();
+    $conn = $conexion->conn;
+
+    // Comprobar si el usuario ya existe
+    $check = $conn->prepare("SELECT id FROM usuarios WHERE usuario = ?");
+    $check->bind_param("s", $usuario);
+    $check->execute();
+    $check->store_result();
+
+    if ($check->num_rows > 0) {
+        die("El nombre de usuario ya está registrado.");
+    }
+    $check->close();
+
+    // Encriptar contraseña
+    $hash = password_hash($password, PASSWORD_BCRYPT);
+
+    // Insertar en usuarios
+    $insertUser = $conn->prepare("INSERT INTO usuarios (usuario, password) VALUES (?, ?)");
+    $insertUser->bind_param("ss", $usuario, $hash);
+    if (!$insertUser->execute()) {
+        die("Error al registrar usuario.");
+    }
+    $insertUser->close();
+
+    // Insertar en clientes
+    $insertCliente = $conn->prepare("INSERT INTO clientes (usuario, nombre, apellidos, correo, fecha_nacimiento, genero) VALUES (?, ?, ?, ?, ?, ?)");
+    $insertCliente->bind_param("ssssss", $usuario, $nombre, $apellidos, $correo, $fecha, $genero);
+    if (!$insertCliente->execute()) {
+        die("Error al guardar datos del cliente.");
+    }
+    $insertCliente->close();
+
+    // Redirigir con mensaje de éxito
+    header("Location: login.html?registro=exitoso");
+    exit;
+}
 ?>
+

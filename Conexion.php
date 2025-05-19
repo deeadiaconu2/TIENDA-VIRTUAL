@@ -1,28 +1,30 @@
 <?php
 class Conexion {
-    private function dbConect(){
-        $_servername="localhost";
-        $_username="root";
-        $_password="";
-        $_database="tienda_virtual";
-        $_port = 3306; 
+    private $servername = "localhost";
+    private $username = "root";
+    private $password = "";
+    private $database = "tienda_virtual";
+    private $port = 3306;
+    private $conn;
 
-        $conn = mysqli_connect($_servername, $_username, $_password, $_database, $_port );
-        mysqli_set_charset($conn,'utf8');
-        //comprobar conexion
-        if (!$conn){
-            die("conection failed: ".mysqli_connect_error());
+    public function __construct() {
+        $this->conn = new mysqli(
+            $this->servername,
+            $this->username,
+            $this->password,
+            $this->database,
+            $this->port
+        );
+
+        if ($this->conn->connect_error) {
+            die("Error de conexión: " . $this->conn->connect_error);
         }
-        return $conn;
 
-    }//fin dbconnect
-    //creamos un metodo det data para devolver las select
-    public function exec_query($sql){
-        $mysqli=$this->dbConect();
-        $res = $mysqli->query($sql);
-        //Cerramos la conexion
-        mysqli_close($mysqli);
-        return $res;
+        $this->conn->set_charset("utf8");
+    }
+
+    public function getConnection() {
+        return $this->conn;
     }
 }
 ?>

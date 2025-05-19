@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Catálogo de Repuestos de Avión</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #003366;
+    }
+
+    .catalogo {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .producto {
+      background-color: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .producto:hover {
+      transform: scale(1.03);
+    }
+
+    .producto h2 {
+      font-size: 1.1rem;
+      color: #222;
+    }
+
+    .producto p {
+      margin: 5px 0;
+    }
+
+    .precio {
+      color: #008000;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Catálogo de Repuestos de Avión</h1>
+
+  <div class="catalogo">
+    <div class="producto">
+      <h2>Filtro de aceite Pratt & Whitney</h2>
+      <p><strong>Ref:</strong> PW-FILTRO01</p>
+      <p class="precio">$3200.00</p>
+    </div>
+    <div class="producto">
+      <h2>Bomba hidráulica Boeing 737</h2>
+      <p><strong>Ref:</strong> B737-BOM01</p>
+      <p class="precio">$4500.00</p>
+    </div>
+    <div class="producto">
+      <h2>Neumático Goodyear 26x6.6</h2>
+      <p><strong>Ref:</strong> GY-NEU2666</p>
+      <p class="precio">$1200.00</p>
+    </div>
+    <div class="producto">
+      <h2>Luz de aterrizaje LED Airbus A320</h2>
+      <p><strong>Ref:</strong> A320-LED01</p>
+      <p class="precio">$650.00</p>
+    </div>
+    <div class="producto">
+      <h2>Válvula de combustible CFM56</h2>
+      <p><strong>Ref:</strong> CFM-VALV02</p>
+      <p class="precio">$2750.00</p>
+    </div>
+    <div class="producto">
+      <h2>Turbina Rolls Royce Trent 1000</h2>
+      <p><strong>Ref:</strong> RR-TURB03</p>
+      <p class="precio">$15500.00</p>
+    </div>
+    <div class="producto">
+      <h2>Bujía calentadora avión LHTR</h2>
+      <p><strong>Ref:</strong> LHTR-PLG04</p>
+      <p class="precio">$480.00</p>
+    </div>
+    <div class="producto">
+      <h2>Generador eléctrico Airbus A350</h2>
+      <p><strong>Ref:</strong> A350-GEN05</p>
+      <p class="precio">$5300.00</p>
+    </div>
+    <div class="producto">
+      <h2>Bomba de presión Boeing 777</h2>
+      <p><strong>Ref:</strong> B777-PMP06</p>
+      <p class="precio">$6200.00</p>
+    </div>
+    <div class="producto">
+      <h2>Válvula de tanque de combustible</h2>
+      <p><strong>Ref:</strong> TANK-VLV07</p>
+      <p class="precio">$800.00</p>
+    </div>
+  </div>
+</body>
+</html>
+
