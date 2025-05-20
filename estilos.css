@@ -1,31 +1,31 @@
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f0f2f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente moderna y legible */
+  background: #f0f2f5; /* Fondo gris claro */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
+  height: 100vh; /* Ocupa todo el alto de la pantalla */
+  margin: 0; /* Elimina márgenes */
 }
 
 .container {
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  width: 400px;
+  background: white; /* Fondo blanco para el contenedor */
+  padding: 40px; /* Espaciado interior */
+  border-radius: 12px; /* Bordes redondeados */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1); /* Sombra suave */
+  width: 400px; /* Ancho fijo */
 }
 
 h2 {
   text-align: center;
   margin-bottom: 20px;
-  color: #333;
+  color: #333; /* Gris oscuro para el título */
 }
 
 form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 10px; /* Espacio vertical entre los inputs */
   margin-bottom: 30px;
 }
 
@@ -41,7 +41,7 @@ input[type="submit"] {
   padding: 10px;
   border: none;
   border-radius: 6px;
-  background-color: #007bff;
+  background-color: #007bff; /* Azul Bootstrap */
   color: white;
   font-size: 16px;
   cursor: pointer;
@@ -49,10 +49,10 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-  background-color: #0056b3;
+  background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
 }
 
 .divider {
   border-top: 1px solid #ccc;
-  margin: 20px 0;
+  margin: 20px 0; /* Línea separadora */
 }

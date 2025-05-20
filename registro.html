@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Registro de Usuario</title>
-  <link rel="stylesheet" href="estilos.css">
+
+  <!-- Fuente y estilo básico -->
+  <link rel="stylesheet" href="estilos.css"> <!-- Si usas uno externo -->
   <style>
+    /* Estilo general del cuerpo */
     body {
       font-family: Arial, sans-serif;
       background-color: #f0f2f5;
@@ -14,6 +17,7 @@
       height: 100vh;
     }
 
+    /* Contenedor del formulario de registro */
     .registro-container {
       background-color: #fff;
       padding: 30px;
@@ -28,6 +32,7 @@
       color: #003366;
     }
 
+    /* Estilos para inputs y select */
     input, select {
       width: 100%;
       padding: 10px;
@@ -36,6 +41,7 @@
       border-radius: 5px;
     }
 
+    /* Botón de enviar */
     button {
       width: 100%;
       padding: 10px;
@@ -51,31 +57,43 @@
       background-color: #0055aa;
     }
 
+    /* Enlace inferior */
     .login-link {
       text-align: center;
       margin-top: 10px;
     }
   </style>
 </head>
+
 <body>
 
   <div class="registro-container">
     <h2>Registro de Usuario</h2>
+
+    <!-- Formulario que se conecta con registrarusuario.php -->
     <form action="registrarusuario.php" method="POST">
+
+      <!-- Campos de entrada -->
       <input type="text" name="usuario" placeholder="Nombre de usuario" required>
       <input type="password" name="password" placeholder="Contraseña" minlength="6" required>
       <input type="text" name="nombre" placeholder="Nombre" required>
       <input type="text" name="apellidos" placeholder="Apellidos">
       <input type="email" name="correo" placeholder="Correo electrónico" required>
       <input type="date" name="fecha_nacimiento" required>
+
+      <!-- Selección de género -->
       <select name="genero" required>
         <option value="">Selecciona género</option>
         <option value="Masculino">Masculino</option>
         <option value="Femenino">Femenino</option>
         <option value="Otro">Otro</option>
       </select>
+
+      <!-- Botón para enviar el formulario -->
       <button type="submit">Registrarse</button>
     </form>
+
+    <!-- Enlace para ir al login si ya tienes cuenta -->
     <div class="login-link">
       <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a></p>
     </div>

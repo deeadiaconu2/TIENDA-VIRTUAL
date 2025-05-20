@@ -1,11 +1,16 @@
 <?php
 session_start();
+
+// Verificar que el usuario esté autenticado
 if (!isset($_SESSION['usuario'])) {
     header("Location: Login.html");
     exit();
 }
+
+// Conexión a la base de datos
 include 'db.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

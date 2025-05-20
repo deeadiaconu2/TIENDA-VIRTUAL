@@ -2,8 +2,10 @@
 session_start();
 require_once 'Conexion.php';
 
+// Verifica si el formulario fue enviado por POST
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Recoger y limpiar datos
+    
+    // Recoger y limpiar los datos del formulario
     $usuario     = trim($_POST['usuario']);
     $password    = trim($_POST['password']);
     $nombre      = trim($_POST['nombre']);
@@ -12,17 +14,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $fecha       = $_POST['fecha_nacimiento'];
     $genero      = $_POST['genero'];
 
-    // Validaciones
+    // Validación de campos obligatorios
     if (empty($usuario) || empty($password) || empty($nombre) || empty($correo)) {
         die("Por favor completa todos los campos obligatorios.");
     }
 
+    // Verificación de longitud mínima de la contraseña
     if (strlen($password) < 6) {
         die("La contraseña debe tener al menos 6 caracteres.");
     }
 
+    // Crear conexión con la base de datos
     $conexion = new Conexion();
-    $conn = $conexion->conn;
+    $conn = $conexion->getConnection();
 
     // Comprobar si el usuario ya existe
     $check = $conn->prepare("SELECT id FROM usuarios WHERE usuario = ?");
@@ -35,10 +39,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     $check->close();
 
-    // Encriptar contraseña
+    // Cifrar la contraseña de forma segura
     $hash = password_hash($password, PASSWORD_BCRYPT);
 
-    // Insertar en usuarios
+    // Insertar datos en la tabla 'usuarios'
     $insertUser = $conn->prepare("INSERT INTO usuarios (usuario, password) VALUES (?, ?)");
     $insertUser->bind_param("ss", $usuario, $hash);
     if (!$insertUser->execute()) {
@@ -46,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     $insertUser->close();
 
-    // Insertar en clientes
+    // Insertar información adicional en la tabla 'clientes'
     $insertCliente = $conn->prepare("INSERT INTO clientes (usuario, nombre, apellidos, correo, fecha_nacimiento, genero) VALUES (?, ?, ?, ?, ?, ?)");
     $insertCliente->bind_param("ssssss", $usuario, $nombre, $apellidos, $correo, $fecha, $genero);
     if (!$insertCliente->execute()) {
@@ -54,9 +58,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     $insertCliente->close();
 
-    // Redirigir con mensaje de éxito
+    // Redirigir al login con mensaje de éxito
     header("Location: login.html?registro=exitoso");
     exit;
 }
 ?>
+
 

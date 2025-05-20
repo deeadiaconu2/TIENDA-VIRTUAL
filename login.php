@@ -1,31 +1,40 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validar si las claves existen antes de usarlas
-    $usuario = isset($_POST["usuario"]) ? $_POST["usuario"] : "";
-    $password = isset($_POST["password"]) ? $_POST["password"] : "";
+    // Obtener datos del formulario con validación
+    $usuario = isset($_POST["usuario"]) ? trim($_POST["usuario"]) : "";
+    $password = isset($_POST["password"]) ? trim($_POST["password"]) : "";
 
-    // Conectar a la base de datos
-    $conn = new mysqli("localhost", "root", "", "nombre_de_tu_base_de_datos");
+    // Conexión segura a la base de datos
+    $conn = new mysqli("localhost", "root", "", "tienda_virtual");
 
-    // Verificar conexión
     if ($conn->connect_error) {
         die("Conexión fallida: " . $conn->connect_error);
     }
 
-    // Preparar y ejecutar consulta
-    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE usuario = ? AND password = ?");
-    $stmt->bind_param("ss", $usuario, $password);
+    // Buscar al usuario en la base de datos
+    $stmt = $conn->prepare("SELECT password FROM usuarios WHERE usuario = ?");
+    $stmt->bind_param("s", $usuario);
     $stmt->execute();
+    $stmt->store_result();
 
-    $result = $stmt->get_result();
+    // Verifica si existe el usuario
+    if ($stmt->num_rows === 1) {
+        $stmt->bind_result($hash);
+        $stmt->fetch();
 
-    if ($result->num_rows > 0) {
-        echo "Inicio de sesión exitoso";
+        // Verificar la contraseña cifrada
+        if (password_verify($password, $hash)) {
+            echo "Inicio de sesión exitoso";
+            // Aquí puedes iniciar sesión con session_start() y redirigir
+        } else {
+            echo "Contraseña incorrecta";
+        }
     } else {
-        echo "Usuario o contraseña incorrectos";
+        echo "Usuario no encontrado";
     }
 
     $stmt->close();
     $conn->close();
 }
 ?>
+
